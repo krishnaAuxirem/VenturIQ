@@ -874,6 +874,780 @@ const ManageUsersSection: React.FC = () => {
   );
 };
 
+// ====== INVESTOR SECTIONS ======
+const InvestorPortfolioSection: React.FC = () => {
+  const [portfolio] = useState([
+    { startup: "EduNova", industry: "EdTech", invested: "₹80 L", equity: "4.5%", valuation: "₹18 Cr", status: "Growing", statusColor: "text-green-400 bg-green-500/20" },
+    { startup: "FinPath", industry: "FinTech", invested: "₹1.5 Cr", equity: "3.2%", valuation: "₹47 Cr", status: "Strong", statusColor: "text-green-400 bg-green-500/20" },
+    { startup: "AgroSense", industry: "AgriTech", invested: "₹30 L", equity: "6%", valuation: "₹5 Cr", status: "Early", statusColor: "text-yellow-400 bg-yellow-500/20" },
+    { startup: "LogiLink", industry: "Logistics", invested: "₹60 L", equity: "5%", valuation: "₹12 Cr", status: "Scaling", statusColor: "text-blue-400 bg-blue-500/20" },
+    { startup: "GreenGrid", industry: "CleanTech", invested: "₹1.2 Cr", equity: "2.8%", valuation: "₹43 Cr", status: "Strong", statusColor: "text-green-400 bg-green-500/20" },
+    { startup: "TalentForge", industry: "HRTech", invested: "₹20 L", equity: "8%", valuation: "₹2.5 Cr", status: "Watch", statusColor: "text-red-400 bg-red-500/20" },
+  ]);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-white">My Portfolio</h2>
+        <button onClick={() => toast.success("Portfolio report exported!")} className="px-4 py-2 bg-[#374151] text-gray-300 text-sm rounded-xl hover:bg-[#F97316]/20 hover:text-[#F97316] transition-all">
+          Export Report
+        </button>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard label="Total Invested" value="₹3.85 Cr" color="text-[#F97316]" />
+        <StatCard label="Portfolio Value" value="₹12.7 Cr" change="↑ 230% unrealized" color="text-green-400" />
+        <StatCard label="Companies" value="6" color="text-blue-400" />
+        <StatCard label="Avg. Equity" value="4.9%" color="text-purple-400" />
+      </div>
+
+      <div className="bg-[#1F2937] border border-[#374151] rounded-2xl overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="border-b border-[#374151] bg-[#111827]">
+              <tr>
+                {["Startup", "Industry", "Invested", "Equity %", "Current Valuation", "Status", "Actions"].map((h) => (
+                  <th key={h} className="text-left py-3 px-4 text-xs text-gray-400 font-medium">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {portfolio.map((row, i) => (
+                <tr key={i} className="border-b border-[#374151]/50 hover:bg-white/5 transition-all">
+                  <td className="py-3 px-4 text-white font-semibold">{row.startup}</td>
+                  <td className="py-3 px-4 text-gray-400">{row.industry}</td>
+                  <td className="py-3 px-4 text-[#F97316] font-medium">{row.invested}</td>
+                  <td className="py-3 px-4 text-gray-300">{row.equity}</td>
+                  <td className="py-3 px-4 text-white font-medium">{row.valuation}</td>
+                  <td className="py-3 px-4">
+                    <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${row.statusColor}`}>{row.status}</span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <button onClick={() => toast.success(`Viewing details for ${row.startup}`)} className="px-3 py-1 bg-[#374151] text-gray-300 text-xs rounded-lg hover:bg-[#F97316]/20 hover:text-[#F97316] transition-all">
+                      Details
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="bg-[#1F2937] border border-[#374151] rounded-2xl p-5">
+        <h3 className="font-semibold text-white mb-4">Portfolio Performance (₹ Cr)</h3>
+        <ResponsiveContainer width="100%" height={200}>
+          <LineChart data={[
+            { month: "Sep", value: 2.1 }, { month: "Oct", value: 2.8 }, { month: "Nov", value: 3.2 },
+            { month: "Dec", value: 4.5 }, { month: "Jan", value: 5.8 }, { month: "Feb", value: 8.2 },
+            { month: "Mar", value: 10.4 }, { month: "Apr", value: 12.7 },
+          ]}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+            <XAxis dataKey="month" stroke="#6B7280" tick={{ fontSize: 11 }} />
+            <YAxis stroke="#6B7280" tick={{ fontSize: 11 }} />
+            <Tooltip contentStyle={{ backgroundColor: "#1F2937", border: "1px solid #374151", borderRadius: "12px", color: "#fff" }} formatter={(v) => [`₹${v} Cr`, "Portfolio Value"]} />
+            <Line type="monotone" dataKey="value" stroke="#22c55e" strokeWidth={2} dot={{ fill: "#22c55e", r: 4 }} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+};
+
+const InvestorInterestsSection: React.FC = () => {
+  const [interests, setInterests] = useState([
+    { startup: "HealthBridge", industry: "HealthTech", stage: "Seed", date: "Mar 10, 2025", status: "Pending" },
+    { startup: "RetailAI", industry: "RetailTech", stage: "Seed", date: "Mar 7, 2025", status: "Connected" },
+    { startup: "TalentForge", industry: "HRTech", stage: "Pre-Seed", date: "Mar 3, 2025", status: "Pending" },
+    { startup: "GreenGrid", industry: "CleanTech", stage: "Series A", date: "Feb 25, 2025", status: "Connected" },
+    { startup: "LogiLink", industry: "Logistics", stage: "Seed", date: "Feb 18, 2025", status: "In Discussion" },
+    { startup: "AgroSense", industry: "AgriTech", stage: "Pre-Seed", date: "Feb 10, 2025", status: "Connected" },
+  ]);
+
+  const statusColors: Record<string, string> = {
+    Pending: "bg-yellow-500/20 text-yellow-400",
+    Connected: "bg-green-500/20 text-green-400",
+    "In Discussion": "bg-blue-500/20 text-blue-400",
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-white">Interests / Saved Startups</h2>
+        <span className="px-3 py-1 bg-[#374151] text-gray-400 text-xs rounded-full">{interests.length} saved</span>
+      </div>
+
+      <div className="bg-[#1F2937] border border-[#374151] rounded-2xl overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="border-b border-[#374151] bg-[#111827]">
+              <tr>
+                {["Startup", "Industry", "Stage", "Date of Interest", "Status", "Actions"].map((h) => (
+                  <th key={h} className="text-left py-3 px-4 text-xs text-gray-400 font-medium">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {interests.map((row, i) => (
+                <tr key={i} className="border-b border-[#374151]/50 hover:bg-white/5 transition-all">
+                  <td className="py-3 px-4 text-white font-semibold">{row.startup}</td>
+                  <td className="py-3 px-4 text-gray-400">{row.industry}</td>
+                  <td className="py-3 px-4">
+                    <span className="px-2 py-0.5 text-xs rounded-full bg-[#374151] text-gray-300">{row.stage}</span>
+                  </td>
+                  <td className="py-3 px-4 text-gray-400">{row.date}</td>
+                  <td className="py-3 px-4">
+                    <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${statusColors[row.status]}`}>{row.status}</span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="flex gap-2">
+                      <button onClick={() => toast.success(`Connecting with ${row.startup}!`)} className="px-2 py-1 bg-[#F97316]/20 text-[#F97316] text-xs rounded-lg hover:bg-[#F97316]/30 transition-all">Connect</button>
+                      <button onClick={() => { setInterests((prev) => prev.filter((_, idx) => idx !== i)); toast("Removed from saved."); }} className="px-2 py-1 bg-[#374151] text-gray-400 text-xs rounded-lg hover:bg-red-500/20 hover:text-red-400 transition-all">Remove</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const InvestorMessagesSection: React.FC = () => {
+  const [threads] = useState([
+    { name: "Arjun Sharma", startup: "EduNova", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop", lastMsg: "Thank you for your interest! I'd love to set up a call to walk you through our traction.", time: "2h ago", unread: 2 },
+    { name: "Priya Iyer", startup: "HealthBridge", avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=60&h=60&fit=crop", lastMsg: "We've just hit ₹1 Cr ARR — would love to share the updated deck.", time: "5h ago", unread: 0 },
+    { name: "Rohan Das", startup: "AgroSense", avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop", lastMsg: "Pilot results are in — 42% yield improvement across 200 farms.", time: "1d ago", unread: 1 },
+  ]);
+  const [active, setActive] = useState(0);
+  const [messages, setMessages] = useState([
+    { from: "founder", text: "Hi! Thank you so much for expressing interest in EduNova. We're really excited about the possibility of working with Bharat Ventures.", time: "10:15 AM" },
+    { from: "investor", text: "Great to connect! I've been following EdTech closely. Can you share your latest deck and traction numbers?", time: "10:32 AM" },
+    { from: "founder", text: "Absolutely! Attaching our deck here. We're at ₹45 L ARR, 4,200 active students, 45% MoM growth, and a 92% retention rate.", time: "10:48 AM" },
+    { from: "investor", text: "Impressive metrics. What's your CAC and LTV breakdown by segment?", time: "11:05 AM" },
+    { from: "founder", text: "Thank you for your interest! I'd love to set up a call to walk you through our traction.", time: "2h ago" },
+  ]);
+  const [newMsg, setNewMsg] = useState("");
+
+  const handleSend = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newMsg.trim()) return;
+    setMessages((prev) => [...prev, { from: "investor", text: newMsg, time: "Just now" }]);
+    setNewMsg("");
+    toast.success("Message sent!");
+  };
+
+  return (
+    <div className="space-y-4">
+      <h2 className="text-2xl font-bold text-white">Messages</h2>
+      <div className="grid lg:grid-cols-3 gap-4 h-[600px]">
+        {/* Thread list */}
+        <div className="bg-[#1F2937] border border-[#374151] rounded-2xl overflow-y-auto">
+          {threads.map((thread, i) => (
+            <button key={i} onClick={() => setActive(i)} className={`w-full text-left p-4 border-b border-[#374151]/50 hover:bg-white/5 transition-all ${active === i ? "bg-[#F97316]/10 border-l-2 border-l-[#F97316]" : ""}`}>
+              <div className="flex items-start gap-3">
+                <img src={thread.avatar} alt={thread.name} className="w-10 h-10 rounded-xl object-cover flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between mb-0.5">
+                    <p className="text-sm font-semibold text-white truncate">{thread.name}</p>
+                    {thread.unread > 0 && <span className="w-5 h-5 bg-[#F97316] text-white text-xs rounded-full flex items-center justify-center flex-shrink-0">{thread.unread}</span>}
+                  </div>
+                  <p className="text-xs text-[#F97316] mb-1">{thread.startup}</p>
+                  <p className="text-xs text-gray-400 truncate">{thread.lastMsg}</p>
+                  <p className="text-xs text-gray-600 mt-1">{thread.time}</p>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Message window */}
+        <div className="lg:col-span-2 bg-[#1F2937] border border-[#374151] rounded-2xl flex flex-col">
+          <div className="p-4 border-b border-[#374151] flex items-center gap-3">
+            <img src={threads[active].avatar} alt={threads[active].name} className="w-9 h-9 rounded-xl object-cover" />
+            <div>
+              <p className="text-sm font-semibold text-white">{threads[active].name}</p>
+              <p className="text-xs text-[#F97316]">{threads[active].startup}</p>
+            </div>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {messages.map((msg, i) => (
+              <div key={i} className={`flex ${msg.from === "investor" ? "justify-end" : "justify-start"}`}>
+                <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm ${msg.from === "investor" ? "bg-[#F97316] text-white rounded-br-sm" : "bg-[#111827] text-gray-300 border border-[#374151] rounded-bl-sm"}`}>
+                  <p>{msg.text}</p>
+                  <p className={`text-xs mt-1 ${msg.from === "investor" ? "text-white/60" : "text-gray-500"}`}>{msg.time}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <form onSubmit={handleSend} className="p-4 border-t border-[#374151] flex gap-3">
+            <input
+              type="text"
+              value={newMsg}
+              onChange={(e) => setNewMsg(e.target.value)}
+              placeholder="Type a message..."
+              className="flex-1 bg-[#111827] border border-[#374151] rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#F97316] transition-colors"
+            />
+            <button type="submit" className="px-4 py-2.5 bg-[#F97316] text-white text-sm font-semibold rounded-xl hover:bg-[#ea6c10] transition-all">Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ====== MENTOR SECTIONS ======
+const MentorBookedSessionsSection: React.FC = () => {
+  const sessions = [
+    { founder: "Arjun Sharma", startup: "EduNova", topic: "Product-Market Fit", date: "Mar 15, 2025", time: "3:00 PM", duration: "60 min", fee: "₹5,000", status: "Confirmed" },
+    { founder: "Priya Iyer", startup: "HealthBridge", topic: "Fundraising Strategy", date: "Mar 17, 2025", time: "11:00 AM", duration: "90 min", fee: "₹7,500", status: "Confirmed" },
+    { founder: "Rohan Das", startup: "AgroSense", topic: "Go-to-Market Plan", date: "Mar 19, 2025", time: "2:00 PM", duration: "60 min", fee: "₹5,000", status: "Pending" },
+    { founder: "Kavya Singh", startup: "RetailAI", topic: "Pitch Deck Review", date: "Mar 22, 2025", time: "4:30 PM", duration: "45 min", fee: "₹3,750", status: "Confirmed" },
+    { founder: "Vikram Nair", startup: "LogiLink", topic: "B2B Sales Strategy", date: "Mar 25, 2025", time: "10:00 AM", duration: "60 min", fee: "₹5,000", status: "Pending" },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-white">Booked Sessions</h2>
+        <div className="flex gap-3">
+          <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full font-medium">3 Confirmed</span>
+          <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded-full font-medium">2 Pending</span>
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        {sessions.map((session, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.06 }}
+            className="bg-[#1F2937] border border-[#374151] rounded-2xl p-5 hover:border-[#F97316]/30 transition-all"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-[#F97316] to-amber-500 rounded-2xl flex items-center justify-center flex-shrink-0">
+                  <GraduationCap className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <p className="font-semibold text-white">{session.founder}</p>
+                  <p className="text-xs text-[#F97316] mb-1">{session.startup}</p>
+                  <p className="text-xs text-gray-400">{session.topic}</p>
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center gap-6">
+                <div className="text-center">
+                  <p className="text-xs text-gray-500">Date</p>
+                  <p className="text-sm font-medium text-white">{session.date}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-xs text-gray-500">Time</p>
+                  <p className="text-sm font-medium text-white">{session.time}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-xs text-gray-500">Duration</p>
+                  <p className="text-sm font-medium text-white">{session.duration}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-xs text-gray-500">Fee</p>
+                  <p className="text-sm font-bold text-[#F97316]">{session.fee}</p>
+                </div>
+                <span className={`px-3 py-1 text-xs rounded-full font-medium ${session.status === "Confirmed" ? "bg-green-500/20 text-green-400" : "bg-yellow-500/20 text-yellow-400"}`}>{session.status}</span>
+                <div className="flex gap-2">
+                  <button onClick={() => toast.success("Joining session...") } className="px-4 py-2 bg-[#F97316] text-white text-xs font-semibold rounded-xl hover:bg-[#ea6c10] transition-all">Join</button>
+                  <button onClick={() => toast("Session cancelled.")} className="px-4 py-2 bg-[#374151] text-gray-300 text-xs rounded-xl hover:bg-red-500/20 hover:text-red-400 transition-all">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const MentorReviewsSection: React.FC = () => {
+  const reviews = [
+    { founder: "Arjun Sharma", startup: "EduNova", rating: 5, text: "Rajesh's guidance on our GTM strategy was transformational. We went from 500 to 4,200 active users in 8 weeks after implementing his advice. Highly recommend!", date: "Mar 8, 2025" },
+    { founder: "Priya Iyer", startup: "HealthBridge", rating: 5, text: "Outstanding session! His fundraising frameworks helped us structure our pitch narrative and we closed our seed round within 40 days. Incredible mentor.", date: "Feb 28, 2025" },
+    { founder: "Rohan Das", startup: "AgroSense", rating: 4, text: "Very insightful session on product-market fit. Rajesh challenged our assumptions in a constructive way and helped us identify our true ICP. Would book again.", date: "Feb 20, 2025" },
+    { founder: "Kavya Singh", startup: "RetailAI", rating: 5, text: "Best mentor session I've had on VenturIQ. He shared real-world examples from his time at Freshworks that were directly applicable to our situation. 5 stars!", date: "Feb 12, 2025" },
+    { founder: "Vikram Nair", startup: "LogiLink", rating: 4, text: "Solid advice on B2B sales strategy. Practical frameworks that we immediately applied. Rajesh is generous with his knowledge and network.", date: "Feb 5, 2025" },
+  ];
+  const avgRating = (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-white">Reviews</h2>
+        <div className="flex items-center gap-2 px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+          <span className="text-xl font-bold text-yellow-400">{avgRating}</span>
+          <div className="flex gap-0.5">{[1,2,3,4,5].map((s) => <span key={s} className="text-yellow-400 text-sm">★</span>)}</div>
+          <span className="text-xs text-gray-400">({reviews.length} reviews)</span>
+        </div>
+      </div>
+
+      <div className="grid sm:grid-cols-3 gap-4">
+        <StatCard label="Total Reviews" value={`${reviews.length}`} color="text-white" />
+        <StatCard label="Average Rating" value={`${avgRating}/5`} color="text-yellow-400" />
+        <StatCard label="5-Star Reviews" value={`${reviews.filter(r => r.rating === 5).length}`} color="text-green-400" />
+      </div>
+
+      <div className="space-y-4">
+        {reviews.map((review, i) => (
+          <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} className="bg-[#1F2937] border border-[#374151] rounded-2xl p-5">
+            <div className="flex items-start justify-between mb-3">
+              <div>
+                <p className="font-semibold text-white">{review.founder}</p>
+                <p className="text-xs text-[#F97316]">{review.startup}</p>
+              </div>
+              <div className="flex flex-col items-end gap-1">
+                <div className="flex gap-0.5">{[1,2,3,4,5].map((s) => <span key={s} className={`text-sm ${s <= review.rating ? "text-yellow-400" : "text-gray-600"}`}>★</span>)}</div>
+                <p className="text-xs text-gray-500">{review.date}</p>
+              </div>
+            </div>
+            <p className="text-sm text-gray-300 leading-relaxed">{review.text}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const MentorEarningsSection: React.FC = () => {
+  const monthlyData = [
+    { month: "Oct", sessions: 5, earnings: 28000 },
+    { month: "Nov", sessions: 7, earnings: 35000 },
+    { month: "Dec", sessions: 8, earnings: 42000 },
+    { month: "Jan", sessions: 7, earnings: 38000 },
+    { month: "Feb", sessions: 9, earnings: 45000 },
+    { month: "Mar", sessions: 10, earnings: 52000 },
+  ];
+  const transactions = [
+    { founder: "Arjun Sharma", topic: "Product Strategy", date: "Mar 15", amount: "₹5,000", status: "Paid" },
+    { founder: "Priya Iyer", topic: "Fundraising Review", date: "Mar 12", amount: "₹7,500", status: "Paid" },
+    { founder: "Rohan Das", topic: "GTM Planning", date: "Mar 8", amount: "₹5,000", status: "Pending" },
+    { founder: "Kavya Singh", topic: "Pitch Deck Review", date: "Mar 3", amount: "₹3,750", status: "Paid" },
+    { founder: "Vikram Nair", topic: "B2B Sales", date: "Feb 27", amount: "₹5,000", status: "Paid" },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-white">Earnings</h2>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard label="This Month" value="₹52,000" change="↑ 15.5%" color="text-green-400" />
+        <StatCard label="Total Earnings" value="₹3.92 L" color="text-[#F97316]" />
+        <StatCard label="Sessions This Month" value="10" color="text-blue-400" />
+        <StatCard label="Avg. per Session" value="₹5,200" color="text-purple-400" />
+      </div>
+
+      <div className="bg-[#1F2937] border border-[#374151] rounded-2xl p-5">
+        <h3 className="font-semibold text-white mb-4">Monthly Earnings (₹)</h3>
+        <ResponsiveContainer width="100%" height={220}>
+          <BarChart data={monthlyData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+            <XAxis dataKey="month" stroke="#6B7280" tick={{ fontSize: 11 }} />
+            <YAxis stroke="#6B7280" tick={{ fontSize: 11 }} />
+            <Tooltip contentStyle={{ backgroundColor: "#1F2937", border: "1px solid #374151", borderRadius: "12px", color: "#fff" }} formatter={(v) => [`₹${Number(v).toLocaleString()}`, "Earnings"]} />
+            <Bar dataKey="earnings" fill="#F97316" radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+
+      <div className="bg-[#1F2937] border border-[#374151] rounded-2xl overflow-hidden">
+        <div className="p-5 border-b border-[#374151]">
+          <h3 className="font-semibold text-white">Transaction History</h3>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="border-b border-[#374151] bg-[#111827]">
+              <tr>
+                {["Founder", "Topic", "Date", "Amount", "Status"].map((h) => (
+                  <th key={h} className="text-left py-3 px-4 text-xs text-gray-400 font-medium">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {transactions.map((tx, i) => (
+                <tr key={i} className="border-b border-[#374151]/50 hover:bg-white/5 transition-all">
+                  <td className="py-3 px-4 text-white font-medium">{tx.founder}</td>
+                  <td className="py-3 px-4 text-gray-400">{tx.topic}</td>
+                  <td className="py-3 px-4 text-gray-400">{tx.date}</td>
+                  <td className="py-3 px-4 text-[#F97316] font-semibold">{tx.amount}</td>
+                  <td className="py-3 px-4">
+                    <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${tx.status === "Paid" ? "bg-green-500/20 text-green-400" : "bg-yellow-500/20 text-yellow-400"}`}>{tx.status}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ====== ADMIN SECTIONS ======
+const AdminBlogManagementSection: React.FC = () => {
+  const [posts, setPosts] = useState([
+    { id: "b1", title: "How AI is Revolutionizing Startup Idea Validation in 2025", author: "Priya Mehta", category: "AI & Technology", status: "Published", date: "Mar 5, 2025" },
+    { id: "b2", title: "The Complete Guide to Raising Your Seed Round in India", author: "Rahul Gupta", category: "Fundraising", status: "Published", date: "Feb 28, 2025" },
+    { id: "b3", title: "10 Metrics Every Investor Looks for Before Writing a Check", author: "Ananya Singh", category: "Investor Relations", status: "Published", date: "Feb 20, 2025" },
+    { id: "b4", title: "Building a Product That Sells Itself: PLG Strategies", author: "Kiran Patel", category: "Product", status: "Draft", date: "Feb 15, 2025" },
+    { id: "b5", title: "Why 90% of Indian Startups Fail to Get to Series A", author: "Vikram Nair", category: "Startup Advice", status: "Published", date: "Feb 8, 2025" },
+    { id: "b6", title: "The Founder's Guide to Building a Rockstar Early Team", author: "Meera Krishnan", category: "Team Building", status: "Draft", date: "Jan 30, 2025" },
+  ]);
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState({ title: "", author: "", category: "AI & Technology", status: "Draft" });
+
+  const handleCreate = (e: React.FormEvent) => {
+    e.preventDefault();
+    setPosts((prev) => [...prev, { id: `b${Date.now()}`, ...form, date: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) }]);
+    setForm({ title: "", author: "", category: "AI & Technology", status: "Draft" });
+    setShowForm(false);
+    toast.success("Blog post created!");
+  };
+
+  const toggleStatus = (id: string) => {
+    setPosts((prev) => prev.map((p) => p.id === id ? { ...p, status: p.status === "Published" ? "Draft" : "Published" } : p));
+    toast.success("Post status updated!");
+  };
+
+  const deletePost = (id: string) => {
+    setPosts((prev) => prev.filter((p) => p.id !== id));
+    toast.success("Post deleted.");
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-white">Blog Management</h2>
+        <button onClick={() => setShowForm(!showForm)} className="px-4 py-2 bg-[#F97316] text-white text-sm font-semibold rounded-xl hover:bg-[#ea6c10] transition-all">
+          {showForm ? "Cancel" : "+ New Post"}
+        </button>
+      </div>
+
+      {showForm && (
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="bg-[#1F2937] border border-[#374151] rounded-2xl p-6">
+          <h3 className="font-semibold text-white mb-4">Create New Post</h3>
+          <form onSubmit={handleCreate} className="space-y-4">
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-gray-400 mb-1.5">Post Title</label>
+                <input required value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} placeholder="Enter post title..." className="w-full bg-[#111827] border border-[#374151] rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#F97316] transition-colors" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-400 mb-1.5">Author</label>
+                <input required value={form.author} onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))} placeholder="Author name..." className="w-full bg-[#111827] border border-[#374151] rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#F97316] transition-colors" />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-400 mb-1.5">Category</label>
+                <select value={form.category} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))} className="w-full bg-[#111827] border border-[#374151] rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#F97316] transition-colors">
+                  {["AI & Technology", "Fundraising", "Investor Relations", "Product", "Startup Advice", "Team Building"].map((c) => <option key={c}>{c}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-400 mb-1.5">Status</label>
+                <select value={form.status} onChange={(e) => setForm((f) => ({ ...f, status: e.target.value }))} className="w-full bg-[#111827] border border-[#374151] rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#F97316] transition-colors">
+                  <option>Draft</option>
+                  <option>Published</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" className="px-6 py-2.5 bg-[#F97316] text-white text-sm font-semibold rounded-xl hover:bg-[#ea6c10] transition-all">Create Post</button>
+          </form>
+        </motion.div>
+      )}
+
+      <div className="bg-[#1F2937] border border-[#374151] rounded-2xl overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="border-b border-[#374151] bg-[#111827]">
+              <tr>
+                {["Title", "Author", "Category", "Status", "Date", "Actions"].map((h) => (
+                  <th key={h} className="text-left py-3 px-4 text-xs text-gray-400 font-medium">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {posts.map((post) => (
+                <tr key={post.id} className="border-b border-[#374151]/50 hover:bg-white/5 transition-all">
+                  <td className="py-3 px-4 text-white font-medium max-w-xs"><p className="truncate">{post.title}</p></td>
+                  <td className="py-3 px-4 text-gray-400 whitespace-nowrap">{post.author}</td>
+                  <td className="py-3 px-4 text-gray-400 whitespace-nowrap">{post.category}</td>
+                  <td className="py-3 px-4">
+                    <button onClick={() => toggleStatus(post.id)} className={`px-2 py-0.5 text-xs rounded-full font-medium transition-all hover:opacity-80 ${post.status === "Published" ? "bg-green-500/20 text-green-400" : "bg-yellow-500/20 text-yellow-400"}`}>{post.status}</button>
+                  </td>
+                  <td className="py-3 px-4 text-gray-400 whitespace-nowrap">{post.date}</td>
+                  <td className="py-3 px-4">
+                    <div className="flex gap-2">
+                      <button onClick={() => toast.success("Opening editor...")} className="px-2 py-1 bg-[#374151] text-gray-300 text-xs rounded-lg hover:bg-blue-500/20 hover:text-blue-400 transition-all">Edit</button>
+                      <button onClick={() => deletePost(post.id)} className="px-2 py-1 bg-[#374151] text-gray-300 text-xs rounded-lg hover:bg-red-500/20 hover:text-red-400 transition-all">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AdminManageInvestorsSection: React.FC = () => {
+  const [investors, setInvestors] = useState([
+    { name: "Vikram Mehta", email: "vikram@bharatventures.com", fund: "Bharat Ventures", focus: "FinTech / EdTech", status: "Active" },
+    { name: "Ananya Krishnan", email: "ananya@deeptech.vc", fund: "DeepTech Capital", focus: "AI/ML / SaaS", status: "Active" },
+    { name: "Rohit Singhania", email: "rohit@greenfuture.vc", fund: "GreenFuture Fund", focus: "CleanTech / AgriTech", status: "Active" },
+    { name: "Meera Pillai", email: "meera@consumeralpha.in", fund: "Consumer Alpha", focus: "D2C / FMCG", status: "Pending" },
+    { name: "Sanjay Gupta", email: "sanjay@healthfirst.vc", fund: "HealthFirst Ventures", focus: "HealthTech / BioTech", status: "Active" },
+    { name: "Kavya Nair", email: "kavya@digitalindia.fund", fund: "Digital India Fund", focus: "SaaS / Marketplace", status: "Suspended" },
+  ]);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-white">Manage Investors</h2>
+        <button onClick={() => toast.success("Export initiated!")} className="px-4 py-2 bg-[#374151] text-gray-300 text-sm rounded-xl hover:bg-[#F97316]/20 hover:text-[#F97316] transition-all">Export CSV</button>
+      </div>
+      <div className="bg-[#1F2937] border border-[#374151] rounded-2xl overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="border-b border-[#374151] bg-[#111827]">
+              <tr>
+                {["Name", "Email", "Fund Name", "Focus Area", "Status", "Actions"].map((h) => (
+                  <th key={h} className="text-left py-3 px-4 text-xs text-gray-400 font-medium">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {investors.map((inv, i) => (
+                <tr key={i} className="border-b border-[#374151]/50 hover:bg-white/5 transition-all">
+                  <td className="py-3 px-4 text-white font-semibold whitespace-nowrap">{inv.name}</td>
+                  <td className="py-3 px-4 text-gray-400">{inv.email}</td>
+                  <td className="py-3 px-4 text-gray-300 whitespace-nowrap">{inv.fund}</td>
+                  <td className="py-3 px-4 text-gray-400">{inv.focus}</td>
+                  <td className="py-3 px-4">
+                    <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${inv.status === "Active" ? "bg-green-500/20 text-green-400" : inv.status === "Pending" ? "bg-yellow-500/20 text-yellow-400" : "bg-red-500/20 text-red-400"}`}>{inv.status}</span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="flex gap-2">
+                      <button onClick={() => { setInvestors((prev) => prev.map((x, idx) => idx === i ? { ...x, status: x.status === "Active" ? "Suspended" : "Active" } : x)); toast.success("Status updated!"); }} className="px-2 py-1 bg-[#374151] text-gray-300 text-xs rounded-lg hover:bg-yellow-500/20 hover:text-yellow-400 transition-all">
+                        {inv.status === "Active" ? "Suspend" : "Activate"}
+                      </button>
+                      <button onClick={() => { setInvestors((prev) => prev.filter((_, idx) => idx !== i)); toast.success("Investor removed."); }} className="px-2 py-1 bg-[#374151] text-gray-300 text-xs rounded-lg hover:bg-red-500/20 hover:text-red-400 transition-all">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AdminManageMentorsSection: React.FC = () => {
+  const [mentors, setMentors] = useState([
+    { name: "Rajesh Iyer", email: "rajesh@mentors.com", expertise: "Product Strategy", fee: "₹5,000/hr", rating: "4.9", status: "Active" },
+    { name: "Sunita Rao", email: "sunita@mentors.com", expertise: "Fundraising", fee: "₹7,500/hr", rating: "4.8", status: "Active" },
+    { name: "Amit Joshi", email: "amit@mentors.com", expertise: "Growth Hacking", fee: "₹3,500/hr", rating: "4.7", status: "Active" },
+    { name: "Divya Menon", email: "divya@mentors.com", expertise: "Legal & Compliance", fee: "₹6,000/hr", rating: "4.9", status: "Pending" },
+    { name: "Prakash Nambiar", email: "prakash@mentors.com", expertise: "Engineering Leadership", fee: "₹4,000/hr", rating: "4.6", status: "Active" },
+    { name: "Nandita Shah", email: "nandita@mentors.com", expertise: "Brand Building", fee: "₹4,500/hr", rating: "4.8", status: "Suspended" },
+  ]);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-white">Manage Mentors</h2>
+        <button onClick={() => toast.success("Export initiated!")} className="px-4 py-2 bg-[#374151] text-gray-300 text-sm rounded-xl hover:bg-[#F97316]/20 hover:text-[#F97316] transition-all">Export CSV</button>
+      </div>
+      <div className="bg-[#1F2937] border border-[#374151] rounded-2xl overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="border-b border-[#374151] bg-[#111827]">
+              <tr>
+                {["Name", "Email", "Expertise", "Session Fee", "Rating", "Status", "Actions"].map((h) => (
+                  <th key={h} className="text-left py-3 px-4 text-xs text-gray-400 font-medium">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {mentors.map((mentor, i) => (
+                <tr key={i} className="border-b border-[#374151]/50 hover:bg-white/5 transition-all">
+                  <td className="py-3 px-4 text-white font-semibold whitespace-nowrap">{mentor.name}</td>
+                  <td className="py-3 px-4 text-gray-400">{mentor.email}</td>
+                  <td className="py-3 px-4 text-gray-300 whitespace-nowrap">{mentor.expertise}</td>
+                  <td className="py-3 px-4 text-[#F97316] font-medium whitespace-nowrap">{mentor.fee}</td>
+                  <td className="py-3 px-4"><span className="text-yellow-400 font-semibold">★ {mentor.rating}</span></td>
+                  <td className="py-3 px-4">
+                    <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${mentor.status === "Active" ? "bg-green-500/20 text-green-400" : mentor.status === "Pending" ? "bg-yellow-500/20 text-yellow-400" : "bg-red-500/20 text-red-400"}`}>{mentor.status}</span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="flex gap-2">
+                      <button onClick={() => { setMentors((prev) => prev.map((x, idx) => idx === i ? { ...x, status: x.status === "Active" ? "Suspended" : "Active" } : x)); toast.success("Status updated!"); }} className="px-2 py-1 bg-[#374151] text-gray-300 text-xs rounded-lg hover:bg-yellow-500/20 hover:text-yellow-400 transition-all">
+                        {mentor.status === "Active" ? "Suspend" : "Activate"}
+                      </button>
+                      <button onClick={() => { setMentors((prev) => prev.filter((_, idx) => idx !== i)); toast.success("Mentor removed."); }} className="px-2 py-1 bg-[#374151] text-gray-300 text-xs rounded-lg hover:bg-red-500/20 hover:text-red-400 transition-all">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AdminFundingActivitySection: React.FC = () => {
+  const activities = [
+    { startup: "EduNova", founder: "Arjun Sharma", amount: "₹12 Cr", equity: "18%", investor: "Bharat Ventures", status: "Completed", date: "Mar 5, 2025" },
+    { startup: "FinPath", founder: "Meena Verma", amount: "₹48 Cr", equity: "15%", investor: "DeepTech Capital", status: "Completed", date: "Feb 20, 2025" },
+    { startup: "AgroSense", founder: "Rohan Das", amount: "₹1.2 Cr", equity: "12%", investor: "GreenFuture Fund", status: "In Progress", date: "Feb 14, 2025" },
+    { startup: "GreenGrid", founder: "Sita Rao", amount: "₹18 Cr", equity: "20%", investor: "Consumer Alpha", status: "Completed", date: "Feb 1, 2025" },
+    { startup: "HealthBridge", founder: "Priya Iyer", amount: "₹3.5 Cr", equity: "14%", investor: "HealthFirst Ventures", status: "In Progress", date: "Jan 25, 2025" },
+    { startup: "LogiLink", founder: "Karan Mehta", amount: "₹5 Cr", equity: "16%", investor: "Digital India Fund", status: "Pending", date: "Jan 18, 2025" },
+    { startup: "TalentForge", founder: "Anjali Kumar", amount: "₹75 L", equity: "10%", investor: "Angel Network", status: "Completed", date: "Jan 10, 2025" },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-white">Funding Activity</h2>
+        <div className="flex gap-3">
+          <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full font-medium">4 Completed</span>
+          <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded-full font-medium">2 In Progress</span>
+          <span className="px-3 py-1 bg-gray-500/20 text-gray-400 text-xs rounded-full font-medium">1 Pending</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <StatCard label="Total Funded This Month" value="₹88.7 Cr" color="text-[#F97316]" />
+        <StatCard label="Deals Closed" value="4" color="text-green-400" />
+        <StatCard label="Avg. Deal Size" value="₹12.5 Cr" color="text-blue-400" />
+      </div>
+
+      <div className="bg-[#1F2937] border border-[#374151] rounded-2xl overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="border-b border-[#374151] bg-[#111827]">
+              <tr>
+                {["Startup", "Founder", "Amount", "Equity %", "Investor", "Status", "Date"].map((h) => (
+                  <th key={h} className="text-left py-3 px-4 text-xs text-gray-400 font-medium">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {activities.map((act, i) => (
+                <tr key={i} className="border-b border-[#374151]/50 hover:bg-white/5 transition-all">
+                  <td className="py-3 px-4 text-white font-semibold whitespace-nowrap">{act.startup}</td>
+                  <td className="py-3 px-4 text-gray-400 whitespace-nowrap">{act.founder}</td>
+                  <td className="py-3 px-4 text-[#F97316] font-bold whitespace-nowrap">{act.amount}</td>
+                  <td className="py-3 px-4 text-gray-300">{act.equity}</td>
+                  <td className="py-3 px-4 text-gray-400 whitespace-nowrap">{act.investor}</td>
+                  <td className="py-3 px-4">
+                    <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${act.status === "Completed" ? "bg-green-500/20 text-green-400" : act.status === "In Progress" ? "bg-blue-500/20 text-blue-400" : "bg-gray-500/20 text-gray-400"}`}>{act.status}</span>
+                  </td>
+                  <td className="py-3 px-4 text-gray-400 whitespace-nowrap">{act.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AdminReportsSection: React.FC = () => {
+  const handlePrint = () => {
+    window.print();
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-white">Platform Reports</h2>
+        <button onClick={handlePrint} className="flex items-center gap-2 px-4 py-2 bg-[#F97316] text-white text-sm font-semibold rounded-xl hover:bg-[#ea6c10] transition-all">
+          <FileText className="w-4 h-4" />
+          Export PDF Report
+        </button>
+      </div>
+
+      <div className="print-area">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <StatCard label="Total Users" value="5,842" change="↑ 234 this week" color="text-blue-400" />
+          <StatCard label="Total Startups" value="2,541" change="↑ 48 this week" color="text-green-400" />
+          <StatCard label="Total Funding Facilitated" value="₹150 Cr+" change="↑ ₹12 Cr this month" color="text-[#F97316]" />
+          <StatCard label="Active Mentors" value="320" change="↑ 15 new" color="text-purple-400" />
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          {[
+            { label: "Investor Accounts", value: "800+", icon: "💼" },
+            { label: "Mentor Sessions Booked", value: "4,200+", icon: "🎓" },
+            { label: "Avg. Funding Round", value: "₹8.5 Cr", icon: "📈" },
+            { label: "Community Posts", value: "1,200+", icon: "💬" },
+            { label: "Idea Validations Run", value: "18,500+", icon: "💡" },
+            { label: "Successful Exits", value: "12", icon: "🏆" },
+          ].map(({ label, value, icon }) => (
+            <div key={label} className="bg-[#1F2937] border border-[#374151] rounded-2xl p-5">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-2xl">{icon}</span>
+                <p className="text-sm text-gray-400">{label}</p>
+              </div>
+              <p className="text-2xl font-bold text-white">{value}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-[#1F2937] border border-[#374151] rounded-2xl p-5 mb-6">
+          <h3 className="font-semibold text-white mb-4">Monthly Platform Growth</h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={USER_DATA}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis dataKey="month" stroke="#6B7280" tick={{ fontSize: 11 }} />
+              <YAxis stroke="#6B7280" tick={{ fontSize: 11 }} />
+              <Tooltip contentStyle={{ backgroundColor: "#1F2937", border: "1px solid #374151", borderRadius: "12px", color: "#fff" }} />
+              <Bar dataKey="users" fill="#F97316" radius={[4, 4, 0, 0]} name="New Users" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="bg-[#1F2937] border border-[#374151] rounded-2xl p-5">
+          <h3 className="font-semibold text-white mb-4">Sector Distribution of Startups</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {[
+              { sector: "EdTech", count: 482, pct: 19 },
+              { sector: "HealthTech", count: 356, pct: 14 },
+              { sector: "FinTech", count: 425, pct: 17 },
+              { sector: "AgriTech", count: 289, pct: 11 },
+              { sector: "CleanTech", count: 198, pct: 8 },
+              { sector: "Others", count: 791, pct: 31 },
+            ].map(({ sector, count, pct }) => (
+              <div key={sector} className="bg-[#111827] rounded-xl p-3">
+                <p className="text-xs text-gray-400 mb-1">{sector}</p>
+                <p className="text-lg font-bold text-white">{count}</p>
+                <div className="h-1.5 bg-[#374151] rounded-full mt-2"><div className="h-full bg-[#F97316] rounded-full" style={{ width: `${pct}%` }} /></div>
+                <p className="text-xs text-gray-500 mt-1">{pct}%</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // ====== MAIN DASHBOARD ======
 const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
@@ -916,6 +1690,9 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         );
+        if (activeTab === "portfolio") return <InvestorPortfolioSection />;
+        if (activeTab === "interests") return <InvestorInterestsSection />;
+        if (activeTab === "messages") return <InvestorMessagesSection />;
         return <div className="text-gray-400 p-6">This section is under development.</div>;
 
       case "mentor":
@@ -935,6 +1712,9 @@ const Dashboard: React.FC = () => {
             ))}
           </div>
         );
+        if (activeTab === "sessions") return <MentorBookedSessionsSection />;
+        if (activeTab === "reviews") return <MentorReviewsSection />;
+        if (activeTab === "earnings") return <MentorEarningsSection />;
         return <div className="text-gray-400 p-6">This section is under development.</div>;
 
       case "admin":
@@ -979,6 +1759,11 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         );
+        if (activeTab === "investors") return <AdminManageInvestorsSection />;
+        if (activeTab === "mentors") return <AdminManageMentorsSection />;
+        if (activeTab === "blog") return <AdminBlogManagementSection />;
+        if (activeTab === "funding") return <AdminFundingActivitySection />;
+        if (activeTab === "reports") return <AdminReportsSection />;
         return <div className="text-gray-400 p-6">This section is under development.</div>;
 
       default: // founder
